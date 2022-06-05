@@ -1,0 +1,55 @@
+﻿@model Questionnaire.Models.Roles
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Roles</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+             <h4>Claims</h4>
+            <div id="claimsGroup" class="form-group">
+                @for (int i = 0; i < Model.Claims.Count; i++)
+                {
+                    <div id="claim@(i)" class="row">
+                        <div class="col">
+                            <input asp-for="Claims" type="text" value="@(Model.Claims[i])" placeholder="enter claim name" class="form-control m-1" />
+                        </div>
+                        <div class="col-auto p-0">
+                            <button @(i == 0 ? "disabled" : "") id="removeClaim" type="button" class="form-control m-1 text-danger" onclick="removeClaimFunc(@(i))">Remove</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="form-group mx-1">
+                <button id="addClaim" type="button" class="btn btn-primary" onclick="addClaimFunc()">Add Claim</button>
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

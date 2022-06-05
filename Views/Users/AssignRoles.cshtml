@@ -1,0 +1,54 @@
+﻿@model Questionnaire.Models.Users
+
+@{
+    ViewData["Title"] = "AssignRoles";
+    var allRoles = ViewBag.Roles as List<string>;
+}
+
+<h1>AssignRoles</h1>
+
+<h4>Users</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignRoles">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+               <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+                    <div class="form-group">
+                <ul class="list-group">
+                    @foreach (var role in allRoles)
+                    {
+                        <li class="ml-5">
+                            <input id="@(role)" name="Roles" type="checkbox" value="@(role)" @(Model.Roles.Any(x => x == role) ? "checked" : "") class="form-check-input me-1" />
+                            @(role)
+                        </li>
+                    }
+                </ul>
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
